@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/A3Forge/steamcmd_a3/steamcmd"
+	steamcmd "github.com/A3Forge/steamcmd_a3"
 )
 
 var (

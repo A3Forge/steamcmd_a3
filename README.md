@@ -31,7 +31,7 @@ go run .
 ### Инициализация
 
 ```go
-import "steamcmd"
+import steamcmd "github.com/A3Forge/steamcmd_a3"
 
 scmd := steamcmd.NewSteamCmd()
 defer scmd.Close()
