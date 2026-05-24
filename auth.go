@@ -32,7 +32,11 @@ func (scmd *SteamCmd) TryLoginWithSteamGuardCode(code string) error {
 	scmd.SGuardCode = code
 	scmd.mu.Unlock()
 
+	// Clear the guard-pending status immediately so the frontend stops prompting.
+	scmd.ChangeStatus(STATUS_FINE, "")
+
 	if err := scmd.TryLogin(); err != nil {
+		scmd.ChangeStatus(err.Error(), "")
 		return err
 	}
 
