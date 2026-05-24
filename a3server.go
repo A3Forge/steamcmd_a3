@@ -30,7 +30,11 @@ func (scmd *SteamCmd) ValidateArma3Server(arma3ServerPath string) error {
 
 func (scmd *SteamCmd) installUpdateAppLocked(serverPath string) {
 	defer scmd.cmdMu.Unlock()
-	defer scmd.ChangeStatus(STATUS_FINE, "")
+
+	resultStatus := STATUS_FINE
+	defer func() {
+		scmd.ChangeStatus(resultStatus, "")
+	}()
 
 	args := []string{"+force_install_dir", serverPath}
 	args = append(args, scmd.credentialsArgs()...)
@@ -60,6 +64,7 @@ func (scmd *SteamCmd) installUpdateAppLocked(serverPath string) {
 		text = scanner.Text()
 		fmt.Println(text)
 		if err := scmd.parseStdOut(text); err != nil {
+			resultStatus = err.Error()
 			_ = scmd.kill()
 			return
 		}
